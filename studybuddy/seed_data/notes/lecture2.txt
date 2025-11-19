@@ -1,0 +1,10 @@
+Data Structures in Python
+
+Data structures are a way of organizing and storing data so that they can be accessed and worked with efficiently. Python has several built-in data structures.
+
+- Lists: Ordered, mutable collections of items. `my_list = [1, 2, "hello"]`
+- Tuples: Ordered, immutable collections of items. `my_tuple = (1, 2, "hello")`
+- Dictionaries: Unordered collections of key-value pairs. `my_dict = {"name": "Alice", "age": 30}`
+- Sets: Unordered collections of unique items. `my_set = {1, 2, 3}`
+
+Understanding the trade-offs of each data structure is crucial for writing efficient code. For example, searching for an item in a list takes linear time, while in a set or dictionary, it takes constant time on average.
