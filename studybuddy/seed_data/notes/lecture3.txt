@@ -1,0 +1,15 @@
+Web Development with Flask
+
+Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries. It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions.
+
+A simple Flask application:
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+To run this application, you would use the command `flask run`.
+
+Flask is a great choice for small to medium-sized web applications and APIs. For larger applications, a more full-featured framework like Django might be a better choice. The concept of routing is central to Flask; it's the mechanism that maps URLs to the functions that handle them.
