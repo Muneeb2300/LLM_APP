@@ -2,20 +2,35 @@ import os
 import json
 from sentence_transformers import SentenceTransformer
 import numpy as np
+from PyPDF2 import PdfReader
 
 NOTES_DIR = "seed_data/notes"
 EMBEDDINGS_FILE = "seed_data/embeddings.json"
 MODEL_NAME = "all-MiniLM-L6-v2"
 
+def extract_text_from_pdf(filepath):
+    """
+    Extracts text from a PDF file.
+    """
+    text = ""
+    with open(filepath, "rb") as f:
+        reader = PdfReader(f)
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
 def load_notes():
     """
-    Loads all notes from the notes directory.
+    Loads all notes from the notes directory, supporting .txt and .pdf files.
     """
     notes = []
     for filename in os.listdir(NOTES_DIR):
+        filepath = os.path.join(NOTES_DIR, filename)
         if filename.endswith(".txt"):
-            with open(os.path.join(NOTES_DIR, filename), "r") as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 notes.append(f.read())
+        elif filename.endswith(".pdf"):
+            notes.append(extract_text_from_pdf(filepath))
     return notes
 
 def chunk_text(text, chunk_size=250):
@@ -44,9 +59,9 @@ def get_embeddings():
     all_chunks = []
     for note in notes:
         all_chunks.extend(chunk_text(note))
-
+    
     embeddings = model.encode(all_chunks).tolist()
-
+    
     data = {
         "chunks": all_chunks,
         "embeddings": embeddings
@@ -54,7 +69,7 @@ def get_embeddings():
 
     with open(EMBEDDINGS_FILE, "w") as f:
         json.dump(data, f)
-
+        
     return data
 
 def retrieve_chunks(question, top_k=3):
@@ -64,13 +79,13 @@ def retrieve_chunks(question, top_k=3):
     data = get_embeddings()
     chunks = data["chunks"]
     embeddings = np.array(data["embeddings"])
-
+    
     model = SentenceTransformer(MODEL_NAME)
     question_embedding = model.encode(question)
-
+    
     # Cosine similarity
     similarities = np.dot(embeddings, question_embedding) / (np.linalg.norm(embeddings, axis=1) * np.linalg.norm(question_embedding))
-
+    
     top_k_indices = np.argsort(similarities)[-top_k:][::-1]
-
+    
     return [chunks[i] for i in top_k_indices]
