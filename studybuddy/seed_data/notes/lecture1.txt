@@ -1,0 +1,11 @@
+Introduction to Python Programming
+
+Python is a high-level, interpreted programming language known for its readability and simplicity. Created by Guido van Rossum and first released in 1991, Python's design philosophy emphasizes code readability with its notable use of significant whitespace.
+
+Key Features:
+- Interpreted: Python code is executed line by line, which makes debugging easier.
+- Dynamically Typed: You don't need to declare the type of a variable.
+- Object-Oriented: Python supports object-oriented programming, allowing for the creation of complex applications.
+- Large Standard Library: Python comes with a vast library of modules and functions.
+
+Recursion is a method of solving a problem where the solution depends on solutions to smaller instances of the same problem. In programming, recursion occurs when a function calls itself. A recursive function must have a base case to stop the recursion.
